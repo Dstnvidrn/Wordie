@@ -101,6 +101,7 @@ function checkLetters(input, letterCount){
     inputLettersSplit.forEach(subArray => {
 
         const [index, letter] = subArray;
+
         const tile = document.querySelector(`#row-${currentRow} :nth-child(${index+1})`);
         
         if(letter === word[inputWord.indexOf(letter)] && letterCount[letter] > 0 && !tile.classList.contains('valid-letter')) {
@@ -114,8 +115,8 @@ function checkLetters(input, letterCount){
             }
             
         } else if (word.includes(letter) && !tile.classList.contains('correct') && letterCount[letter] > 0){
-            
-            tile.classList.add('valid-letter');
+            tile.classList.add('flip-cexists');
+            addFlipAnimation(currentRow, index);            
             letterCount[letter]--;        
         }
 
@@ -130,6 +131,10 @@ function checkLetters(input, letterCount){
 
 
     
+}
+function addFlipAnimation(rowNumber, childNumber) {
+    const tile =  document.querySelector(`#row-${rowNumber} :nth-child(${childNumber+1})`);
+    tile.style.animationDelay = `${childNumber * 0.2}`;
 }
 function eventCallback(event) {
     traverseLetters(event.key)
