@@ -1,12 +1,13 @@
 const wordFrame= document.querySelector('#word-frame');
+const words = ['apple', 'media', 'named', 'watch'];
 const word = pickWord();
 console.log(word);
 let currentColumn = 0;
 let currentRow = 0;
-const columns = 5;
+const columns = words[0].length;
 const rows = 6;
 let inputWord = '';
-
+let attempts = rows;
 
 
 
@@ -39,7 +40,7 @@ function createTiles(rows, columns) {
 
 
 function pickWord() {
-    const words = ['apple', 'media', 'named', 'watch'];
+    
     const randomNumber = Math.floor(Math.random()* words.length);
     
     return words[randomNumber].toLowerCase();
@@ -49,29 +50,24 @@ function logColsRows() {
     Current column: ${currentColumn}
     Current Row: ${currentRow}`);
 }
-function traverseLetters(letter) {
-
-
-    
+function traverseLetters(letter) {    
     if (currentRow === rows){
         return;
     }
-    else if((letter >= 'a' && letter <= 'z' ) && currentColumn < columns){
-        inputWord += letter;
+    else if((letter) >= 'a' &&(letter <= 'z' ) && currentColumn < columns){
+        inputWord +=(letter);
         document.querySelector('.current-tile')?.classList.remove('current-tile');
         const currentTile = getCurrentTile();
-        currentTile.textContent = letter;
+        currentTile.textContent =(letter);
         currentColumn++    
         getCurrentTile()?.classList.add('current-tile');
     }
-    else if(currentColumn === columns && letter === 'Enter'){
+    else if(currentColumn === columns &&(letter) === 'Enter'){
         currentColumn = 0;
         validateWord(inputWord);
         currentRow++;        
-        getCurrentTile()?.classList.add('current-tile');
-        
+        getCurrentTile()?.classList.add('current-tile');        
         inputWord = '';
-
     }
     else if (letter === "Backspace" && currentColumn > 0) {
         inputWord = inputWord.substring(0,currentColumn-1);
@@ -80,54 +76,72 @@ function traverseLetters(letter) {
         currentColumn === columns ? currentColumn-- : currentColumn--;
         const currentTile = getCurrentTile();
         currentTile.textContent = '';
-        currentTile.classList.add('current-tile');
-
-        
-        
+        currentTile.classList.add('current-tile');        
     }
 }
 function addKeyEvents() {
-    window.addEventListener('keydown', (event) => {
-        traverseLetters(event.key);
-
-        
-    })
+    window.addEventListener('keydown',eventCallback)
 }
 function validateWord(input) {
     const letterCount = {};
-    const [...indexLetterArray] = word.split('').entries();
-    
-    
+    const [...indexLetterArray] = word.split('').entries();    
     indexLetterArray.forEach(pair=> {
         const[index, letter] = pair
         letterCount[letter] ? letterCount[letter]++ : letterCount[letter] = 1;
     })
-    checkLetters(input, letterCount);
-    
-    
+    checkLetters(input, letterCount);    
 }
 
 
 function checkLetters(input, letterCount){
-    console.log(letterCount)
+    let correctCounter = 0;
+    
+    
     const [...inputLettersSplit] = input.split('').entries()
     inputLettersSplit.forEach(subArray => {
+
         const [index, letter] = subArray;
         const tile = document.querySelector(`#row-${currentRow} :nth-child(${index+1})`);
         
         if(letter === word[inputWord.indexOf(letter)] && letterCount[letter] > 0 && !tile.classList.contains('valid-letter')) {
             tile.classList.add('correct')
             letterCount[letter]--;
+            correctCounter++;
+            if(correctCounter === input.length) {
+                displayWin();
+                endGame();
+                return
+            }
+            
         } else if (word.includes(letter) && !tile.classList.contains('correct') && letterCount[letter] > 0){
-    
+            
             tile.classList.add('valid-letter');
-            letterCount[letter]--;
-    
+            letterCount[letter]--;        
         }
 
     })
+    attempts--;
+    if(attempts === 0 ) {
+        displayLoss()
+        endGame()
+        return;
+    }
+    console.log(attempts);
+
 
     
+}
+function eventCallback(event) {
+    traverseLetters(event.key)
+}
+function endGame() {
+    window.removeEventListener('keydown', eventCallback)
+}
+function displayWin() {
+    document.body.classList.add('winner');
+}
+function displayLoss() {
+    document.body.classList.add('loser');
 }
 function init() {
     createTiles(columns, rows);    
@@ -137,5 +151,6 @@ function init() {
 function getCurrentTile() {
     return document.querySelector(`#tile-${currentRow}${currentColumn}`);
 }
-init();
+
+    init();
 
