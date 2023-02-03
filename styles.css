@@ -3,14 +3,24 @@
   margin: 0;
   box-sizing: border-box;
 }
+:root {
+  --color-light: #f9f9f9;
+  --color-light-green: #00da9b;
+  --color-med-green: #00924c;
+  --color-light-yellow: #ffff83;
+  --color-med-yellow: #d8db64;
+  --color-blue: #03abff;
+  --color-med-red: #cf4c48;
+  --color-light-red: #fb4c48;
+}
 body {
   background-color: #252525;
   font-family: "Courier New", Courier, monospace;
   transition: background-color 2s;
 }
 header {
-  color: #f9f9f9;
-  border-bottom: 2px solid #f9f9f9;
+  color: var(--color-light);
+  border-bottom: 2px solid var(--color-light);
   width: 50%;
   margin: 0 auto;
   text-align: center;
@@ -19,13 +29,13 @@ header {
 }
 .tile {
   padding: 10px;
-  border: 2px solid #f9f9f9;
+  border: 2px solid var(--color-light);
   text-transform: uppercase;
   font-size: 3rem;
   border-radius: 10px;
   text-align: center;
   background-color: #353535;
-  color: #f9f9f9;
+  color: var(--color-light);
   max-width: 6rem;
   font-family: inherit;
   height: 6rem;
@@ -47,15 +57,15 @@ header {
   animation: typed 0.1s ease-in-out;
 }
 .correct {
-  background-color: #00924c;
-  border-color: #00da9b;
+  background-color: var(--color-med-green);
+  border-color: var(--color-light-green);
 }
 .current-tile {
-  border-color: #03abff;
+  border-color: var(--color-blue);
 }
 .valid-letter {
-  background-color: #d8db64;
-  border-color: #ffff83;
+  background-color: var(--color-med-yellow);
+  border-color: var(--color-light-yellow);
 }
 
 .flip-card {
@@ -63,6 +73,28 @@ header {
 }
 .victory {
   animation: victory-bounce 1s ease-in-out;
+}
+.result--win {
+  color: var(--color-light);
+  background-color: #00924c;
+  max-width: 30%;
+  margin: 0 auto;
+  border-radius: 15px;
+  padding: 1rem;
+  text-align: center;
+  font-size: 1.8rem;
+  border: 2px solid var(--color-light-green);
+}
+.result--loss {
+  color: var(--color-light);
+  background-color: var(--color-med-red);
+  max-width: 30%;
+  margin: 0 auto;
+  border-radius: 15px;
+  padding: 1rem;
+  text-align: center;
+  font-size: 1.8rem;
+  border: 2px solid var(--color-light-red);
 }
 
 @keyframes typed {
