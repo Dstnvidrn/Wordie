@@ -9,6 +9,8 @@ const rows = 6;
 let inputWord = "";
 let attempts = rows;
 
+const result = document.querySelector("#result");
+
 function createTiles(rows, columns) {
   wordFrame.style.gridTemplateColumns = `repeat(${1},5rem)`;
 
@@ -102,7 +104,9 @@ function checkLetters(input, letterCount) {
       letterCount[letter]--;
       correctCounter++;
       if (correctCounter === input.length) {
-        document.querySelector("#result").textContent = `You win!`;
+        result.textContent = `You win!`;
+        result.classList.add("result--win");
+
         addAnimations(currentRow, index, true);
         endGame();
         return;
@@ -119,6 +123,8 @@ function checkLetters(input, letterCount) {
   attempts--;
   if (attempts === 0) {
     endGame();
+    result.textContent = `Game over ☹. Word was ${word.toUpperCase()}`;
+    result.classList.add("result--loss");
     return;
   }
   console.log(attempts);
