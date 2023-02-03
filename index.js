@@ -87,7 +87,7 @@ function checkLetters(input, letterCount) {
   const [...inputLettersSplit] = input.split("").entries();
   inputLettersSplit.forEach((subArray) => {
     const [index, letter] = subArray;
-    addFlipAnimation(currentRow, index);
+    addAnimations(currentRow, index);
     const tile = document.querySelector(
       `#row-${currentRow} :nth-child(${index + 1})`
     );
@@ -97,12 +97,13 @@ function checkLetters(input, letterCount) {
       letterCount[letter] > 0 &&
       !tile.classList.contains("valid-letter")
     ) {
-      // tile.style.animationDelay = `${index + 1 * 0.15}s`;
       tile.classList.add("correct");
 
       letterCount[letter]--;
       correctCounter++;
       if (correctCounter === input.length) {
+        document.querySelector("#result").textContent = `You win!`;
+        addAnimations(currentRow, index, true);
         endGame();
         return;
       }
@@ -111,7 +112,6 @@ function checkLetters(input, letterCount) {
       !tile.classList.contains("correct") &&
       letterCount[letter] > 0
     ) {
-      // tile.style.animationDelay = `${index + 1 * 0.15}s`;
       tile.classList.add("valid-letter");
       letterCount[letter]--;
     }
@@ -123,13 +123,23 @@ function checkLetters(input, letterCount) {
   }
   console.log(attempts);
 }
-function addFlipAnimation(rowNumber, childNumber) {
+function addAnimations(rowNumber, childNumber, victory = false) {
   const tile = document.querySelector(
     `#row-${rowNumber} :nth-child(${childNumber + 1})`
   );
-
   tile.style.animationDelay = `${childNumber * 0.15}s`;
-  tile.classList.add("flip-card");
+
+  if (!victory) {
+    tile.classList.add("flip-card");
+  } else if (victory) {
+    setTimeout(() => {
+      for (let i = 0; i < columns; i++) {
+        document
+          .querySelector(`#row-${rowNumber} :nth-child(${i + 1})`)
+          .classList.add("victory");
+      }
+    }, 1500);
+  }
 }
 function eventCallback(event) {
   traverseLetters(event.key);
