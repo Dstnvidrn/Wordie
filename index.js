@@ -97,8 +97,9 @@ function checkLetters(input, letterCount) {
       letterCount[letter] > 0 &&
       !tile.classList.contains("valid-letter")
     ) {
+      // tile.style.animationDelay = `${index + 1 * 0.15}s`;
       tile.classList.add("correct");
-      console.log(tile);
+
       letterCount[letter]--;
       correctCounter++;
       if (correctCounter === input.length) {
@@ -110,6 +111,7 @@ function checkLetters(input, letterCount) {
       !tile.classList.contains("correct") &&
       letterCount[letter] > 0
     ) {
+      // tile.style.animationDelay = `${index + 1 * 0.15}s`;
       tile.classList.add("valid-letter");
       letterCount[letter]--;
     }
@@ -125,7 +127,7 @@ function addFlipAnimation(rowNumber, childNumber) {
   const tile = document.querySelector(
     `#row-${rowNumber} :nth-child(${childNumber + 1})`
   );
-  console.log(tile);
+
   tile.style.animationDelay = `${childNumber * 0.15}s`;
   tile.classList.add("flip-card");
 }

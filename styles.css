@@ -2,7 +2,6 @@
   padding: 0;
   margin: 0;
   box-sizing: border-box;
-  /* outline: 1px green solid; */
 }
 body {
   background-color: #252525;
@@ -12,6 +11,8 @@ body {
 header {
   color: #f9f9f9;
   border-bottom: 2px solid #f9f9f9;
+  width: 50%;
+  margin: 0 auto;
   text-align: center;
   font-size: 4.8rem;
   padding-top: 1.2rem;
@@ -46,22 +47,17 @@ header {
   animation: typed 0.1s ease-in-out;
 }
 .correct {
-  background-color: rgb(25, 176, 12);
-  border-color: rgb(18, 122, 8);
+  background-color: #00924c;
+  border-color: #00da9b;
 }
 .current-tile {
-  border-color: cadetblue;
+  border-color: #03abff;
 }
 .valid-letter {
-  background-color: #c9af03;
-  border-color: #988400;
+  background-color: #d8db64;
+  border-color: #ffff83;
 }
-.winner {
-  background-color: rgb(25, 176, 12);
-}
-.loser {
-  background-color: #9b0909;
-}
+
 .flip-card {
   animation: flip-card 0.6s ease forwards;
 }
