@@ -9,16 +9,21 @@
   --color-med-green: #00924c;
   --color-light-yellow: #ffff83;
   --color-med-yellow: #d8db64;
-  --color-blue: #03abff;
+  --color-blue-light: #03abff;
+  --color-blue-med: #048ed2;
+  --color-blue-dark: #047fbd;
   --color-med-red: #cf4c48;
   --color-light-red: #fb4c48;
+  --color-dark: #252525;
+
+  font-size: 62.5%;
 }
 body {
   background-color: #252525;
   font-family: "Courier New", Courier, monospace;
-  transition: background-color 2s;
 }
-header {
+h1 {
+  font-weight: 400;
   color: var(--color-light);
   border-bottom: 2px solid var(--color-light);
   width: 50%;
@@ -26,6 +31,36 @@ header {
   text-align: center;
   font-size: 4.8rem;
   padding-top: 1.2rem;
+}
+header {
+  padding: 1.5rem 3rem;
+  margin-bottom: 1rem;
+  display: flex;
+  justify-content: end;
+}
+#visit-git {
+  background-color: var(--color-blue-light);
+  padding: 1.2rem;
+  border-radius: 5px;
+  text-decoration: none;
+  color: var(--color-dark);
+  font-size: 1.8rem;
+  font-weight: 500;
+  display: flex;
+  gap: 5px;
+  justify-content: center;
+}
+#visit-git:visited {
+  color: var(--color-dark);
+}
+#visit-git:hover {
+  background-color: var(--color-blue-med);
+}
+#visit-git:active {
+  background-color: var(--color-blue-dark);
+}
+#github-logo {
+  width: 2.5rem;
 }
 .tile {
   padding: 10px;
@@ -61,7 +96,7 @@ header {
   border-color: var(--color-light-green);
 }
 .current-tile {
-  border-color: var(--color-blue);
+  border-color: var(--color-blue-light);
 }
 .valid-letter {
   background-color: var(--color-med-yellow);
