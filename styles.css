@@ -1,62 +1,170 @@
 * {
-    padding: 0;
-    margin: 0;
-    box-sizing: border-box;
-    /* outline: 1px green solid; */
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
 }
-body{
-    background-color: #252525;
-    font-family: 'Courier New', Courier, monospace;
-    transition: background-color  2s;
-}
-header{
-    color:#f9f9f9;
-    border-bottom: 2px solid #f9f9f9;
-    text-align: center;
-    font-size: 4.8rem;
-    padding-top: 1.2rem;
-}
-.tile{
+:root {
+  --color-light: #f9f9f9;
+  --color-light-green: #00da9b;
+  --color-med-green: #00924c;
+  --color-light-yellow: #ffff83;
+  --color-med-yellow: #d8db64;
+  --color-blue-light: #03abff;
+  --color-blue-med: #048ed2;
+  --color-blue-dark: #047fbd;
+  --color-med-red: #cf4c48;
+  --color-light-red: #fb4c48;
+  --color-dark: #252525;
 
-    padding: 10px;
-    border: 2px solid #f9f9f9;
-    text-transform: uppercase;
-    font-size: 3rem;
-    border-radius: 10px;
-    text-align: center;
-    background-color: #353535;
-    color: #f9f9f9;
-    max-width: 6rem;
-    font-family: inherit;
-    height: 6rem;
-    
+  font-size: 62.5%;
+}
+body {
+  background-color: #252525;
+  font-family: "Courier New", Courier, monospace;
+}
+h1 {
+  font-weight: 400;
+  color: var(--color-light);
+  border-bottom: 2px solid var(--color-light);
+  width: 50%;
+  margin: 0 auto;
+  text-align: center;
+  font-size: 4.8rem;
+  padding-top: 1.2rem;
+}
+header {
+  padding: 1.5rem 3rem;
+  margin-bottom: 1rem;
+  display: flex;
+  justify-content: end;
+}
+#visit-git {
+  background-color: var(--color-blue-light);
+  padding: 1.2rem;
+  border-radius: 5px;
+  text-decoration: none;
+  color: var(--color-dark);
+  font-size: 1.8rem;
+  font-weight: 500;
+  display: flex;
+  gap: 5px;
+  justify-content: center;
+}
+#visit-git:visited {
+  color: var(--color-dark);
+}
+#visit-git:hover {
+  background-color: var(--color-blue-med);
+}
+#visit-git:active {
+  background-color: var(--color-blue-dark);
+}
+#github-logo {
+  width: 2.5rem;
+}
+.tile {
+  padding: 10px;
+  border: 2px solid var(--color-light);
+  text-transform: uppercase;
+  font-size: 3rem;
+  border-radius: 10px;
+  text-align: center;
+  background-color: #353535;
+  color: var(--color-light);
+  max-width: 6rem;
+  font-family: inherit;
+  height: 6rem;
+  transition: 1s ease;
 }
 
 #word-frame {
-    padding: 25px;
-    border-radius: 10px;
-    border: double #f9f9f9 2px;
-    display: grid;
-    align-items: center;
-    justify-content: center;
-    gap: 5px;
-    max-width: 30rem;
-    margin: 1rem auto 0;
+  padding: 25px;
+  border-radius: 10px;
 
+  display: grid;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+
+  margin: 1rem auto 0;
 }
-.correct{
-    background-color: rgb(25, 176, 12);
+.typed {
+  animation: typed 0.1s ease-in-out;
+}
+.correct {
+  background-color: var(--color-med-green);
+  border-color: var(--color-light-green);
 }
 .current-tile {
-    border-color: cadetblue;
+  border-color: var(--color-blue-light);
 }
-.valid-letter{
-    background-color: #c9af03;
-    
+.valid-letter {
+  background-color: var(--color-med-yellow);
+  border-color: var(--color-light-yellow);
 }
-.winner {
-    background-color: rgb(25, 176, 12);
+
+.flip-card {
+  animation: flip-card 0.6s ease forwards;
 }
-.loser {
-    background-color: #9b0909;
+.victory {
+  animation: victory-bounce 1s ease-in-out;
+}
+.result--win {
+  color: var(--color-light);
+  background-color: #00924c;
+  max-width: 30%;
+  margin: 0 auto;
+  border-radius: 15px;
+  padding: 1rem;
+  text-align: center;
+  font-size: 1.8rem;
+  border: 2px solid var(--color-light-green);
+}
+.result--loss {
+  color: var(--color-light);
+  background-color: var(--color-med-red);
+  max-width: 30%;
+  margin: 0 auto;
+  border-radius: 15px;
+  padding: 1rem;
+  text-align: center;
+  font-size: 1.8rem;
+  border: 2px solid var(--color-light-red);
+}
+
+@keyframes typed {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+}
+
+@keyframes flip-card {
+  0% {
+    transform: rotateY(0);
+    background-color: #353535;
+  }
+  50% {
+    transform: rotateY(90deg);
+    background-color: #353535;
+  }
+  100% {
+    transform: rotateY(0);
+  }
+}
+@keyframes victory-bounce {
+  0%,
+  50%,
+  100% {
+    transform: translateY(0);
+  }
+  25% {
+    transform: translateY(-70px);
+  }
+  75% {
+    transform: translateY(-25px);
+  }
 }

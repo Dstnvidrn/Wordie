@@ -1,156 +1,167 @@
-const wordFrame= document.querySelector('#word-frame');
-const words = ['apple', 'media', 'named', 'watch'];
+const wordFrame = document.querySelector("#word-frame");
+const words = ["apple", "media", "named", "watch"];
 const word = pickWord();
 console.log(word);
 let currentColumn = 0;
 let currentRow = 0;
 const columns = words[0].length;
 const rows = 6;
-let inputWord = '';
+let inputWord = "";
 let attempts = rows;
 
-
-
-
-
+const result = document.querySelector("#result");
 
 function createTiles(rows, columns) {
-    wordFrame.style.gridTemplateColumns = `repeat(${1},5rem)`
-    
-    for(let i = 0; i < columns; i++){
-        const tileRow = document.createElement('div');
-        tileRow.style.display = 'grid';
-        tileRow.style.gridTemplateColumns = `repeat(${rows},5rem)`
-        tileRow.style.gap= '5px';
-        tileRow.style.justifyContent= 'center';
-        tileRow.style.alignItems = 'center';
-        tileRow.id = `row-${i}`;
+  wordFrame.style.gridTemplateColumns = `repeat(${1},5rem)`;
 
-        for(let j = 0; j < rows; j++){
-            const tile = document.createElement('span');
-            tile.classList.add('tile');
-            tile.id = `tile-${i}${j}`
-            tileRow.appendChild(tile)
-            wordFrame.insertAdjacentElement('beforeend',tileRow);            
-        }
+  for (let i = 0; i < columns; i++) {
+    const tileRow = document.createElement("div");
+    tileRow.style.display = "grid";
+    tileRow.style.gridTemplateColumns = `repeat(${rows},5rem)`;
+    tileRow.style.gap = "5px";
+    tileRow.style.justifyContent = "center";
+    tileRow.style.alignItems = "center";
+    tileRow.id = `row-${i}`;
 
-    } 
-    getCurrentTile().classList.add('current-tile')   
+    for (let j = 0; j < rows; j++) {
+      const tile = document.createElement("span");
+      tile.style.display = "flex";
+      tile.style.justifyContent = "center";
+      tile.style.alignItems = "center";
+      tile.classList.add("tile");
+      tile.id = `tile-${i}${j}`;
+      tileRow.appendChild(tile);
+      wordFrame.insertAdjacentElement("beforeend", tileRow);
+    }
+  }
+  getCurrentTile().classList.add("current-tile");
 }
-
 
 function pickWord() {
-    
-    const randomNumber = Math.floor(Math.random()* words.length);
-    
-    return words[randomNumber].toLowerCase();
+  const randomNumber = Math.floor(Math.random() * words.length);
+  return words[randomNumber].toLowerCase();
 }
-function logColsRows() {
-    console.log(`
-    Current column: ${currentColumn}
-    Current Row: ${currentRow}`);
-}
-function traverseLetters(letter) {    
-    if (currentRow === rows){
-        return;
-    }
-    else if((letter) >= 'a' &&(letter <= 'z' ) && currentColumn < columns){
-        inputWord +=(letter);
-        document.querySelector('.current-tile')?.classList.remove('current-tile');
-        const currentTile = getCurrentTile();
-        currentTile.textContent =(letter);
-        currentColumn++    
-        getCurrentTile()?.classList.add('current-tile');
-    }
-    else if(currentColumn === columns &&(letter) === 'Enter'){
-        currentColumn = 0;
-        validateWord(inputWord);
-        currentRow++;        
-        getCurrentTile()?.classList.add('current-tile');        
-        inputWord = '';
-    }
-    else if (letter === "Backspace" && currentColumn > 0) {
-        inputWord = inputWord.substring(0,currentColumn-1);
 
-        document.querySelector('.current-tile')?.classList.remove('current-tile');
-        currentColumn === columns ? currentColumn-- : currentColumn--;
-        const currentTile = getCurrentTile();
-        currentTile.textContent = '';
-        currentTile.classList.add('current-tile');        
-    }
+function traverseLetters(letter) {
+  if (currentRow === rows) {
+    return;
+  } else if (letter >= "a" && letter <= "z" && currentColumn < columns) {
+    inputWord += letter;
+    document.querySelector(".current-tile")?.classList.remove("current-tile");
+    const currentTile = getCurrentTile();
+    currentTile.classList.add("typed");
+    currentTile.textContent = letter;
+    currentColumn++;
+    getCurrentTile()?.classList.add("current-tile");
+  } else if (currentColumn === columns && letter === "Enter") {
+    currentColumn = 0;
+    validateWord(inputWord);
+    currentRow++;
+    getCurrentTile()?.classList.add("current-tile");
+    inputWord = "";
+  } else if (letter === "Backspace" && currentColumn > 0) {
+    inputWord = inputWord.substring(0, currentColumn - 1);
+
+    document.querySelector(".current-tile")?.classList.remove("current-tile");
+    currentColumn === columns ? currentColumn-- : currentColumn--;
+    const currentTile = getCurrentTile();
+    currentTile.classList.remove("typed");
+    currentTile.textContent = "";
+    currentTile.classList.add("current-tile");
+  }
 }
 function addKeyEvents() {
-    window.addEventListener('keydown',eventCallback)
+  window.addEventListener("keydown", eventCallback);
 }
 function validateWord(input) {
-    const letterCount = {};
-    const [...indexLetterArray] = word.split('').entries();    
-    indexLetterArray.forEach(pair=> {
-        const[index, letter] = pair
-        letterCount[letter] ? letterCount[letter]++ : letterCount[letter] = 1;
-    })
-    checkLetters(input, letterCount);    
+  const letterCount = {};
+  const [...indexLetterArray] = word.split("").entries();
+  indexLetterArray.forEach((pair) => {
+    const [index, letter] = pair;
+    letterCount[letter] ? letterCount[letter]++ : (letterCount[letter] = 1);
+  });
+  checkLetters(input, letterCount);
 }
 
+function checkLetters(input, letterCount) {
+  let correctCounter = 0;
 
-function checkLetters(input, letterCount){
-    let correctCounter = 0;
-    
-    
-    const [...inputLettersSplit] = input.split('').entries()
-    inputLettersSplit.forEach(subArray => {
+  const [...inputLettersSplit] = input.split("").entries();
+  inputLettersSplit.forEach((subArray) => {
+    const [index, letter] = subArray;
+    addAnimations(currentRow, index);
+    const tile = document.querySelector(
+      `#row-${currentRow} :nth-child(${index + 1})`
+    );
 
-        const [index, letter] = subArray;
-        const tile = document.querySelector(`#row-${currentRow} :nth-child(${index+1})`);
-        
-        if(letter === word[inputWord.indexOf(letter)] && letterCount[letter] > 0 && !tile.classList.contains('valid-letter')) {
-            tile.classList.add('correct')
-            letterCount[letter]--;
-            correctCounter++;
-            if(correctCounter === input.length) {
-                displayWin();
-                endGame();
-                return
-            }
-            
-        } else if (word.includes(letter) && !tile.classList.contains('correct') && letterCount[letter] > 0){
-            
-            tile.classList.add('valid-letter');
-            letterCount[letter]--;        
-        }
+    if (
+      letter === word[inputWord.indexOf(letter)] &&
+      letterCount[letter] > 0 &&
+      !tile.classList.contains("valid-letter")
+    ) {
+      tile.classList.add("correct");
 
-    })
-    attempts--;
-    if(attempts === 0 ) {
-        displayLoss()
-        endGame()
+      letterCount[letter]--;
+      correctCounter++;
+      if (correctCounter === input.length) {
+        result.textContent = `You win!`;
+        result.classList.add("result--win");
+
+        addAnimations(currentRow, index, true);
+        endGame();
         return;
+      }
+    } else if (
+      word.includes(letter) &&
+      !tile.classList.contains("correct") &&
+      letterCount[letter] > 0
+    ) {
+      tile.classList.add("valid-letter");
+      letterCount[letter]--;
     }
-    console.log(attempts);
+  });
+  attempts--;
+  if (attempts === 0) {
+    endGame();
+    result.textContent = `Game over ☹. Word was ${word.toUpperCase()}`;
+    result.classList.add("result--loss");
+    return;
+  }
+  console.log(attempts);
+}
+function addAnimations(rowNumber, childNumber, victory = false) {
+  const tile = document.querySelector(
+    `#row-${rowNumber} :nth-child(${childNumber + 1})`
+  );
+  tile.style.animationDelay = `${childNumber * 0.15}s`;
 
-
-    
+  if (!victory) {
+    tile.classList.add("flip-card");
+  } else if (victory) {
+    setTimeout(() => {
+      for (let i = 0; i < columns; i++) {
+        document
+          .querySelector(`#row-${rowNumber} :nth-child(${i + 1})`)
+          .classList.add("victory");
+      }
+    }, 1500);
+  }
 }
 function eventCallback(event) {
-    traverseLetters(event.key)
+  traverseLetters(event.key);
 }
 function endGame() {
-    window.removeEventListener('keydown', eventCallback)
+  window.removeEventListener("keydown", eventCallback);
 }
-function displayWin() {
-    document.body.classList.add('winner');
-}
-function displayLoss() {
-    document.body.classList.add('loser');
-}
-function init() {
-    createTiles(columns, rows);    
-    addKeyEvents();
 
+function init() {
+  createTiles(columns, rows);
+  addKeyEvents();
 }
 function getCurrentTile() {
-    return document.querySelector(`#tile-${currentRow}${currentColumn}`);
+  const tile = document?.querySelector(`#tile-${currentRow}${currentColumn}`);
+
+  return tile;
 }
 
-    init();
-
+init();
