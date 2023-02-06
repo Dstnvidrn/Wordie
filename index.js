@@ -1,15 +1,25 @@
 const wordFrame = document.querySelector("#word-frame");
-const words = ["apple", "media", "named", "watch"];
+const words = [
+  "apple",
+  "media",
+  "named",
+  "watch",
+  "check",
+  "wizard",
+  "cheese",
+  "possession",
+];
 const word = pickWord();
 console.log(word);
 let currentColumn = 0;
 let currentRow = 0;
-const columns = words[0].length;
+const columns = word.length;
 const rows = 6;
 let inputWord = "";
 let attempts = rows;
 
 const result = document.querySelector("#result");
+const keyboardKeys = document.querySelectorAll(".key");
 
 function createTiles(rows, columns) {
   wordFrame.style.gridTemplateColumns = `repeat(${1},5rem)`;
@@ -72,6 +82,12 @@ function traverseLetters(letter) {
 }
 function addKeyEvents() {
   window.addEventListener("keydown", eventCallback);
+  keyboardKeys.forEach((key) => {
+    key.addEventListener("click", () => {
+      if (key.id === "backspace") traverseLetters("Backspace");
+      traverseLetters(key.textContent);
+    });
+  });
 }
 function validateWord(input) {
   const letterCount = {};
