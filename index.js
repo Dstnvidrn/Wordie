@@ -57,21 +57,36 @@ function traverseLetters(letter) {
     return;
   } else if (letter >= "a" && letter <= "z" && currentColumn < columns) {
     inputWord += letter;
+    const keyboardLetter = document.querySelector(`#${letter}`);
+    keyboardLetter.classList.add("typed");
+    keyboardLetter.addEventListener("animationend", (e) => {
+      e.currentTarget.classList.remove("typed");
+    });
     document.querySelector(".current-tile")?.classList.remove("current-tile");
     const currentTile = getCurrentTile();
     currentTile.classList.add("typed");
+
     currentTile.textContent = letter;
     currentColumn++;
     getCurrentTile()?.classList.add("current-tile");
   } else if (currentColumn === columns && letter === "Enter") {
     currentColumn = 0;
+    const keyboardEnter = document.querySelector("#enter");
+    keyboardEnter.classList.add("typed");
+    keyboardEnter.addEventListener("animationend", (e) =>
+      e.currentTarget.classList.remove("typed")
+    );
     validateWord(inputWord);
     currentRow++;
     getCurrentTile()?.classList.add("current-tile");
     inputWord = "";
   } else if (letter === "Backspace" && currentColumn > 0) {
     inputWord = inputWord.substring(0, currentColumn - 1);
-
+    const keyboardBackspace = document.querySelector("#backspace");
+    keyboardBackspace.classList.add("typed");
+    keyboardBackspace.addEventListener("animationend", (e) =>
+      e.currentTarget.classList.remove("typed")
+    );
     document.querySelector(".current-tile")?.classList.remove("current-tile");
     currentColumn === columns ? currentColumn-- : currentColumn--;
     const currentTile = getCurrentTile();
@@ -80,6 +95,7 @@ function traverseLetters(letter) {
     currentTile.classList.add("current-tile");
   }
 }
+/* Adds events to all on-screen keyboard and windows to capture keypress downs */
 function addKeyEvents() {
   window.addEventListener("keydown", eventCallback);
   keyboardKeys.forEach((key) => {
@@ -89,6 +105,7 @@ function addKeyEvents() {
     });
   });
 }
+/*Receives and input string then validates it agaisnt the randomly generated word from pickWord() */
 function validateWord(input) {
   const letterCount = {};
   const [...indexLetterArray] = word.split("").entries();
@@ -115,6 +132,9 @@ function checkLetters(input, letterCount) {
       letterCount[letter] > 0 &&
       !tile.classList.contains("valid-letter")
     ) {
+      document
+        .querySelector(`#${letter}`)
+        .classList.add("correct", "flip-card");
       tile.classList.add("correct");
 
       letterCount[letter]--;
@@ -133,7 +153,9 @@ function checkLetters(input, letterCount) {
       letterCount[letter] > 0
     ) {
       tile.classList.add("valid-letter");
-      letterCount[letter]--;
+      const key = document.querySelector(`#${letter}`);
+      key.classList.add("valid-letter", "flip-card");
+      key.letterCount[letter]--;
     }
   });
   attempts--;
