@@ -140,6 +140,9 @@ function checkLetters(input, letterCount) {
       letterCount[letter]--;
       correctCounter++;
       if (correctCounter === input.length) {
+        word.split("").forEach((letter) => {
+          document.querySelector(`#${letter}`).classList.add("correct");
+        });
         result.textContent = `You win!`;
         result.classList.add("result--win");
 
