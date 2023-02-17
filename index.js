@@ -77,9 +77,10 @@ function traverseLetters(letter) {
       e.currentTarget.classList.remove("typed")
     );
     validateWord(inputWord);
-    currentRow++;
     getCurrentTile()?.classList.add("current-tile");
     inputWord = "";
+    console.log(currentRow);
+    currentRow++;
   } else if (letter === "Backspace" && currentColumn > 0) {
     inputWord = inputWord.substring(0, currentColumn - 1);
     const keyboardBackspace = document.querySelector("#backspace");
@@ -158,7 +159,7 @@ function checkLetters(input, letterCount) {
       tile.classList.add("valid-letter");
       const key = document.querySelector(`#${letter}`);
       key.classList.add("valid-letter", "flip-card");
-      key.letterCount[letter]--;
+      letterCount[letter]--;
     }
   });
   attempts--;
